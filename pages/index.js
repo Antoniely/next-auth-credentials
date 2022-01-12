@@ -1,10 +1,8 @@
 import Head from "next/head";
-import { signOut, useSession, signIn } from "next-auth/react";
+import { signOut, useSession, getSession } from "next-auth/react";
 
 export default function Home() {
   const { data: session } = useSession();
-
-  console.log("session", session);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <Head>
@@ -13,11 +11,7 @@ export default function Home() {
       </Head>
 
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        {session ? (
-          <button onClick={() => signOut()}>Log out</button>
-        ) : (
-          <button onClick={() => signIn()}>Sign in</button>
-        )}
+        {session ? <button onClick={() => signOut()}>Log out</button> : null}
       </main>
 
       <footer className="flex items-center justify-center w-full h-24 border-t">
@@ -33,4 +27,12 @@ export default function Home() {
       </footer>
     </div>
   );
+}
+
+export async function getServerSideProps(ctx) {
+  return {
+    props: {
+      session: await getSession(ctx),
+    },
+  };
 }

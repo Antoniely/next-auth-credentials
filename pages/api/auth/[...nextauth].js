@@ -1,52 +1,53 @@
 import NextAuth from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
+import axios from "axios";
 
 export default NextAuth({
   providers: [
     CredentialProvider({
       name: "Custom Provider",
-      credentials: {
-        username: { label: "Email", type: "text", placeholder: "john@doe.com" },
-        password: { label: "Password", type: "password" },
-      },
       async authorize(credentials, req) {
-        if (
-          credentials.username === "john" &&
-          credentials.password === "test"
-        ) {
-          return {
-            id: 2,
-            name: "John",
-            email: "johndoe@test.com",
-          };
-        }
+        try {
+          const URL = "https://61da90164593510017aff598.mockapi.io/login";
+          const response = await axios.get(URL);
 
-        // login failed
-        return null;
+          if (response) {
+            console.log(credentials.email, credentials.password);
+            return response.data[0];
+          }
+
+          // login failed
+          return null;
+        } catch (e) {
+          const errorMessage = e.response.data.message;
+          // Redirecting to the login page with error message          in the URL
+          throw new Error(errorMessage + "&email=" + credentials.email);
+        }
       },
     }),
   ],
-  // pages: {
-  //   signIn: "auth/signin",
-  // },
+  pages: {
+    signIn: "/login",
+    error: "/login",
+    signOut: "/login",
+  },
   secret: process.env.JWT_SIGNING_PRIVATE_KEY,
   jwt: {
     secret: process.env.JWT_SIGNING_PRIVATE_KEY,
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, account, user }) {
       // first time jwt callback is run, user object is available
-      if (user) {
-        token.id = user.id;
-      }
 
-      return token;
+      if (account && user) {
+        return {
+          ...token,
+          name: "Juan",
+          email: user.email,
+        };
+      }
     },
     async session({ session, token }) {
-      if (token) {
-        session.id = token.id;
-      }
-
       return session;
     },
   },
