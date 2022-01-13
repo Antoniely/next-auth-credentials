@@ -42,6 +42,7 @@ export default function FormLogin() {
           redirect: false,
         });
         if (res?.error) {
+          setLoading(false);
           Swal.fire({
             icon: "error",
             title: "Oops....",
@@ -63,27 +64,29 @@ export default function FormLogin() {
               htmlFor="email"
               className="block text-white text-sm font-medium "
             >
-              Email
+              Email:{" "}
+              <Field
+                name="email"
+                type="text"
+                autoComplete="given-name"
+                className="mt-1 h-12  text-gray-800 block w-full shadow-md lg:text-lg  rounded-md"
+              />
             </label>
-            <Field
-              name="email"
-              type="text"
-              autoComplete="given-name"
-              className="mt-1 h-12  text-gray-800 block w-full shadow-md lg:text-lg  rounded-md"
-            />
+
             <ErrorMessage name="email" />
 
             <label
               htmlFor="password"
               className="block text-sm text-white font-medium mt-5 "
             >
-              Password
+              Password:{" "}
+              <Field
+                name="password"
+                type="password"
+                className="mt-1 h-12 text-gray-800 block w-full shadow-md lg:text-lg  border-gray-900 rounded-md"
+              />
             </label>
-            <Field
-              name="password"
-              type="password"
-              className="mt-1 h-12 text-gray-800 block w-full shadow-md lg:text-lg  border-gray-900 rounded-md"
-            />
+
             <ErrorMessage name="password" />
           </div>
 
@@ -91,17 +94,17 @@ export default function FormLogin() {
             <div>Forgot Password?</div>
           </div>
 
-          <div className="flex flex-col px-24 py-5 w-full">
+          <div className="flex flex-col text-black px-24 py-5 w-full">
             {!loading ? (
               <button
                 type="submit"
-                className="mt-5 inline-flex justify-center py-4 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white font-sans bg-[#4ED2DA] hover:bg-[#46c0c7] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="mt-5 inline-flex justify-center py-4 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full  font-sans bg-[#4ED2DA] hover:bg-[#46c0c7] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 disabled={isSubmitting}
               >
                 Sign In
               </button>
             ) : (
-              <h3 className="mt-5 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white font-sans bg-[#4ED2DA] hover:bg-[#46c0c7] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <h3 className="mt-5 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md  font-sans bg-[#4ED2DA] hover:bg-[#46c0c7] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Enviado...
               </h3>
             )}

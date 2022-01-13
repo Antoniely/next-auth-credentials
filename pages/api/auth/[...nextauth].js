@@ -12,7 +12,7 @@ export default NextAuth({
           const response = await axios.get(URL);
 
           if (response) {
-            console.log(credentials.email, credentials.password);
+            // console.log(credentials.email, credentials.password);
             return response.data[0];
           }
 
