@@ -46,7 +46,7 @@ export default function FormLogin() {
           Swal.fire({
             icon: "error",
             title: "Oops....",
-            text: res.error,
+            text: '',
           });
         }
         if (res.url) router.push(res.url);
@@ -54,9 +54,9 @@ export default function FormLogin() {
       }}
     >
       {({ isSubmitting }) => (
-        <Form className="flex flex-col  items-center text-xs font-comic text-white sm:p-6 shadow overflow-hidden rounded-md">
+        <Form className="flex flex-col  items-center text-xs  text-white sm:p-6 shadow overflow-hidden rounded-md">
           <div className="flex flex-col items-center">
-            <div className="text-white font-bold  text-4xl">Welcome!</div>
+            <div className="text-white font-bold font-comic  text-4xl">Welcome!</div>
             <div className="text-white ">Sign in to your account</div>
           </div>
           <div className="flex flex-col text-red-300 px-24 py-5 w-full">
